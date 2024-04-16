@@ -65,16 +65,16 @@ namespace WebAppLeaveManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]  //security
-        public async Task<IActionResult> Create(LeaveTypeVM LeaveTypeVM) //public async Task<IActionResult> Create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveTypeVM LeaveTypeVM) Removing Bind use Automapper to map the data to correct datatypes
+        public async Task<IActionResult> Create(LeaveTypeVM leaveTypeVM) //public async Task<IActionResult> Create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveTypeVM LeaveTypeVM) Removing Bind use Automapper to map the data to correct datatypes
         {
             if (ModelState.IsValid)
             {
-                var LeaveType = mapper.Map<LeaveTypeVM>(LeaveTypeVM); //We here changed leaveType to LeavetypeVM and since we dont have leavetypeVm data in db so we will use auto mapper to change incoming data of type LeavetypeVM to LeaveType and then add that to Database
+                var LeaveType = mapper.Map<LeaveTypeVM>(leaveTypeVM); //We here changed leaveType to LeavetypeVM and since we dont have leavetypeVm data in db so we will use auto mapper to change incoming data of type LeavetypeVM to LeaveType and then add that to Database
                 _context.Add(LeaveType); //Add or create 
                 await _context.SaveChangesAsync(); //savechanges or commit
                 return RedirectToAction(nameof(Index));
             }
-            return View(LeaveTypeVM);
+            return View(leaveTypeVM);
         }
 
         // GET: LeaveTypes/Edit/5
@@ -90,7 +90,8 @@ namespace WebAppLeaveManagementSystem.Controllers
             {
                 return NotFound();
             }
-            return View(leaveType);
+            var leaveTypeVM = mapper.Map<LeaveTypeVM>(leaveType);
+            return View(leaveTypeVM);
         }
 
         // POST: LeaveTypes/Edit/5
@@ -98,9 +99,9 @@ namespace WebAppLeaveManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveType leaveType)
+        public async Task<IActionResult> Edit(int id, LeaveTypeVM leaveTypeVM)
         {
-            if (id != leaveType.Id)
+            if (id != leaveTypeVM.Id)
             {
                 return NotFound();
             }
@@ -109,12 +110,13 @@ namespace WebAppLeaveManagementSystem.Controllers
             {
                 try
                 {
+                    var leaveType = mapper.Map<LeaveType>(leaveTypeVM);  //VM to Data Model
                     _context.Update(leaveType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveTypeExists(leaveType.Id))
+                    if (!LeaveTypeExists(leaveTypeVM.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +127,7 @@ namespace WebAppLeaveManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+            return View(leaveTypeVM);
         }
 
         // GET: LeaveTypes/Delete/5
