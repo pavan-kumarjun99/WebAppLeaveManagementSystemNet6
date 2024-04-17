@@ -29,8 +29,8 @@ namespace WebAppLeaveManagementSystem.Controllers
             //return View(await _context.LeaveTypes.ToListAsync()); // Select * from LeaveTypes; -- LeaveTypes Table is connected to DbContext
                                                                   // connect to db > Select * from LeaveTypes > Push values to List : EF Core            
                                                                     //var LeaveTypes = (await _context.LeaveTypes.ToListAsync()); 
-            var LeaveTypes = mapper.Map<List<LeaveTypeVM>>(await _context.LeaveTypes.ToListAsync()); // Data Model to View Model -- Everything should be in List to casting to List type
-            return View(LeaveTypes);
+            var leaveTypes = mapper.Map<List<LeaveTypeVM>>(await _context.LeaveTypes.ToListAsync()); // Data Model to View Model -- Everything should be in List to casting to List type
+            return View(leaveTypes);
                                                                   //return _context.LeaveTypes != null ? 
                                                                   //          View(await _context.LeaveTypes.ToListAsync()) :
                                                                   //          Problem("Entity set 'ApplicationDbContext.LeaveTypes'  is null.");
@@ -59,18 +59,15 @@ namespace WebAppLeaveManagementSystem.Controllers
             return View();
         }
 
-        // POST: LeaveTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]  //security
-        public async Task<IActionResult> Create(LeaveTypeVM leaveTypeVM) //public async Task<IActionResult> Create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveTypeVM LeaveTypeVM) Removing Bind use Automapper to map the data to correct datatypes
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(LeaveTypeVM leaveTypeVM)
         {
             if (ModelState.IsValid)
             {
-                var LeaveType = mapper.Map<LeaveTypeVM>(leaveTypeVM); //We here changed leaveType to LeavetypeVM and since we dont have leavetypeVm data in db so we will use auto mapper to change incoming data of type LeavetypeVM to LeaveType and then add that to Database
-                _context.Add(LeaveType); //Add or create 
-                await _context.SaveChangesAsync(); //savechanges or commit
+                var leaveType = mapper.Map<LeaveType>(leaveTypeVM); //We here changed leaveType to LeavetypeVM and since we dont have leavetypeVm data in db so we will use auto mapper to change incoming data of type LeavetypeVM to LeaveType and then add that to Database
+                _context.Add(leaveType);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(leaveTypeVM);
@@ -132,7 +129,7 @@ namespace WebAppLeaveManagementSystem.Controllers
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.LeaveTypes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -146,6 +143,7 @@ namespace WebAppLeaveManagementSystem.Controllers
 
             return View(leaveType);
         }
+
 
         // POST: LeaveTypes/Delete/5
         [HttpPost, ActionName("Delete")]
