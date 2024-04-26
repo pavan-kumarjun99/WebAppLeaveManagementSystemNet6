@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppLeaveManagementSystem.Data;
 
@@ -11,9 +12,10 @@ using WebAppLeaveManagementSystem.Data;
 namespace WebAppLeaveManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240424163720_AddedDefaultUserADMIN")]
+    partial class AddedDefaultUserADMIN
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                         new
                         {
                             Id = "97f18b92-877e-534b-9635-9ded7ce73db1",
-                            ConcurrencyStamp = "9a2eed98-0fe5-4b83-878a-6ef6d29ddbc6",
+                            ConcurrencyStamp = "7fc23557-daff-4f9b-82dc-92962492d3e8",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "65f17b92-811e-484b-9560-9ded9be37db2",
-                            ConcurrencyStamp = "e0a1d1ac-9818-4110-bf16-a5b527c8aa8f",
+                            ConcurrencyStamp = "764fc0d9-a9a1-4a19-b43d-1d3b9dbc24c0",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -266,21 +268,19 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                         {
                             Id = "65f17b92-811e-484b-9560-9ded9be37db0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "806e4b42-e9bc-4c01-85ca-17d8233eabbc",
+                            ConcurrencyStamp = "b5aa1972-c13e-44b1-9255-3ed1b1d2eca5",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfJoining = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "test1@gmail.com",
-                            EmailConfirmed = true,
+                            EmailConfirmed = false,
                             Firstname = "Test",
                             Lastname = "1",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST1@GMAIL.COM",
-                            NormalizedUserName = "TEST1@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEByejmZYcR61kAwiJl6rqcJjMUAAHhPHzk/+e6cm/RcVSRjHddyNWIpdyo7s/5xmbw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6jWaFC+85UaTgnT8kHS48thuVamon/F9SEkbgZbiHT/ARwAobYNmc1xZjY6bz7gA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2a1b9d2f-f881-4a9d-9196-5634dfe9de65",
-                            TwoFactorEnabled = false,
-                            UserName = "test1@gmail.com"
+                            SecurityStamp = "185c2a1c-0333-451b-ac45-4d70b687f98f",
+                            TwoFactorEnabled = false
                         });
                 });
 

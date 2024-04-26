@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+footer {
+    width: 80%; /* This sets the width to 80% of the container */
+    margin: 0 auto; /* This centers the footer horizontally */
+}
