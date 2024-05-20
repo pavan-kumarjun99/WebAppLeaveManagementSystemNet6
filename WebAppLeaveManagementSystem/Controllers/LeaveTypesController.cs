@@ -20,12 +20,15 @@ namespace WebAppLeaveManagementSystem.Controllers
         //Dependency Injection
         private readonly ILeaveTypeRepository leaveTypeRepository;
         private readonly IMapper mapper; //Data Model to View model DI
+        private readonly ILeaveAllocationRepository leaveAllocationRepository;
 
-        public LeaveTypesController(ILeaveTypeRepository leaveTypeRepository, IMapper Mapper) //context will hold the connection
+        public LeaveTypesController(ILeaveTypeRepository leaveTypeRepository, IMapper Mapper,
+            ILeaveAllocationRepository leaveAllocationRepository) //context will hold the connection
         {
             //_context = context; //Connection is passed to _context field
             this.leaveTypeRepository = leaveTypeRepository;
             this.mapper = Mapper;
+            this.leaveAllocationRepository = leaveAllocationRepository;
         }
 
         // GET: LeaveTypes
@@ -62,7 +65,7 @@ namespace WebAppLeaveManagementSystem.Controllers
             if (ModelState.IsValid)
             {
                 var leaveType = mapper.Map<LeaveType>(leaveTypeVM); //We here changed leaveType to LeavetypeVM and since we dont have leavetypeVm data in db so we will use auto mapper to change incoming data of type LeavetypeVM to LeaveType and then add that to Database
-                await leaveTypeRepository.AddSync(leaveType);
+                await leaveTypeRepository.AddASync(leaveType);
                 return RedirectToAction(nameof(Index));
             }
             return View(leaveTypeVM);
@@ -129,5 +132,13 @@ namespace WebAppLeaveManagementSystem.Controllers
         //{
         //  return await leaveTypeRepository.Exists(id);
         //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AllocateLeave(int id)
+        {
+            await leaveAllocationRepository.LeaveAllocation(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

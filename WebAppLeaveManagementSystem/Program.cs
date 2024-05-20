@@ -5,6 +5,7 @@ using WebAppLeaveManagementSystem.Data;
 using AutoMapper;
 using WebAppLeaveManagementSystem.Contracts;
 using WebAppLeaveManagementSystem.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireC
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
-
+builder.Services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddControllersWithViews();

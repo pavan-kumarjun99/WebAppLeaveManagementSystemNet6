@@ -13,11 +13,17 @@ namespace WebAppLeaveManagementSystem.Repositories
         {
             this.context = context;
         }
-        public async Task<T> AddSync(T entity)
+        public async Task<T> AddASync(T entity)
         {
             await context.AddAsync(entity);
             await context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task AddRangeASync(List<T> entities)
+        {
+            await context.AddRangeAsync(entities);
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
