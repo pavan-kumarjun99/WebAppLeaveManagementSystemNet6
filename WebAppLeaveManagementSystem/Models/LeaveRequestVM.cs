@@ -8,9 +8,10 @@ namespace WebAppLeaveManagementSystem.Models
     {
         public int Id { get; set; }
 
+        public int Days { get; set; }
+
         [Display(Name ="Date Requested")]
         public DateTime DateRequested { get; set; }
-
 
         [Display(Name = "Leave Type")]
         public LeaveTypeVM LeaveType { get; set; }
@@ -22,6 +23,5 @@ namespace WebAppLeaveManagementSystem.Models
 
         public EmployeeListVM Employee { get; set; }
         public string? RequestingEmployeeId { get; internal set; }
-
     }
 }

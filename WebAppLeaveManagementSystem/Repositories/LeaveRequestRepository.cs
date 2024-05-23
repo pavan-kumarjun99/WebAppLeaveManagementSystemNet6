@@ -42,15 +42,36 @@ namespace WebAppLeaveManagementSystem.Repositories
             await UpdateAsync(leaveRequest);
         }
 
-        public async Task CreateLeaveRequest(LeaveRequestCreateVM model)
+        public async Task ChangeApprovalStatusCancelled(int leaveRequestId, bool cancelled)
+        {
+            var leaveRequest = await GetAsync(leaveRequestId);
+            leaveRequest.Cancelled = cancelled;
+            if(cancelled)
+            {
+                await UpdateAsync(leaveRequest);
+            }
+        }
+
+        public async Task<bool> CreateLeaveRequest(LeaveRequestCreateVM model)
         {
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User);
+            var leaveAllocation = await leaveAllocationRepository.GetEmployeeAllocation(user.Id, model.LeaveTypeId);
+            if(leaveAllocation == null)
+            {
+                return false;
+            }
+            int daysRequested = (int)(model.EndDate.Value - model.StartDate.Value).TotalDays; // Deduction value
+            if(daysRequested > leaveAllocation.NumberOfDays)
+            {
+                return false;
+            }
 
             var leaveRequest = mapper.Map<LeaveRequest>(model);
             leaveRequest.DateRequested = DateTime.Now;
             leaveRequest.RequestingEmployeeId = user.Id;
 
             await AddASync(leaveRequest);
+            return true;
         }
 
         public async Task<AdminLeaveRequestViewVM> GetAdminLeaveRequestList()
@@ -61,7 +82,8 @@ namespace WebAppLeaveManagementSystem.Repositories
                 TotalRequests = leaveRequests.Count,
                 RejectedRequests = leaveRequests.Count(q => q.Approved == false),
                 ApprovedRequests = leaveRequests.Count(q => q.Approved == true),
-                PendingRequests = leaveRequests.Count(q => q.Approved == null),
+                PendingRequests = leaveRequests.Count(q => q.Approved == null) - leaveRequests.Count(q => q.Cancelled == true),
+                CancelledRequest = leaveRequests.Count(q => q.Cancelled == true),
                 LeaveRequests = mapper.Map<List<LeaveRequestVM>>(leaveRequests)
             };
 

@@ -52,6 +52,20 @@ namespace WebAppLeaveManagementSystem.Controllers
 
             return View(model);
         }
+        // This is for Cancelling the request by the user before the approval or rejection
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelRequest(int id, bool cancelled)
+        {
+
+            try
+            {
+                await leaveRequestRepository.ChangeApprovalStatusCancelled(id,cancelled);
+
+            }
+            catch (Exception ex) { throw; }
+            return RedirectToAction(nameof(MyLeave));
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,13 +101,16 @@ namespace WebAppLeaveManagementSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await leaveRequestRepository.CreateLeaveRequest(model);
-                    return RedirectToAction(nameof(MyLeave));
+                    var isValidRequest = await leaveRequestRepository.CreateLeaveRequest(model);
+                    if (isValidRequest)
+                    {
+                        return RedirectToAction(nameof(MyLeave));
+                    }
+                    ModelState.AddModelError(string.Empty, "You have exceeded the leave allocation.");
                 }
             }
             catch(Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "An error has been occured.Please try again later.");
             }
 
             model.LeaveTypes = new SelectList(_context.LeaveTypes, "Id", "Name", model.LeaveTypeId);

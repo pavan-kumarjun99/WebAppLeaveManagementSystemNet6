@@ -6,8 +6,15 @@
 
 <h1>Admin Leave Request View</h1>
 
-<div class="row">
-    <div class="col-3">
+<div class="row ">
+    <div class="col-2">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 class="card-text text-danger">Leave Statistics</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
         <div class="card">
             <div class="card-body text-center">
                 <h1 class="card-title text-primary">@Model.TotalRequests</h1>
@@ -15,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="card">
             <div class="card-body text-center">
                 <h1 class="card-title text-success">@Model.ApprovedRequests</h1>
@@ -23,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="card">
             <div class="card-body text-center">
                 <h1 class="card-title text-warning">@Model.PendingRequests</h1>
@@ -31,11 +38,19 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="card">
             <div class="card-body text-center">
                 <h1 class="card-title text-danger">@Model.RejectedRequests</h1>
                 <p class="card-text">@Html.DisplayNameFor(m => m.RejectedRequests)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="card">
+            <div class="card-body text-center">
+                <h1 class="card-title text-danger">@Model.CancelledRequest</h1>
+                <p class="card-text">@Html.DisplayNameFor(m => m.CancelledRequest)</p>
             </div>
         </div>
     </div>
@@ -57,6 +72,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => Model.LeaveRequests[0].EndDate)
+            </th>
+            <th>
+                Days
             </th>
             <th>
                 @Html.DisplayNameFor(model => Model.LeaveRequests[0].LeaveType)
@@ -86,6 +104,12 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
+                @{
+                    item.Days = (item.EndDate.Value.Day - item.StartDate.Value.Day);
+                }
+                @Html.DisplayFor(modelItem => item.Days)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.LeaveType.Name)
             </td>
             <td>
@@ -96,29 +120,29 @@
             </td>
             
             <td>
-                       @if (item.Cancelled)
+                 @if (item.Cancelled)
                         {
-                        <span class="badge bg-secondary">Cancelled</span>
-                        }
-                        else if (item.Approved == true)
-                        {
-                        <span class="badge bg-success">Approved</span>
-                        }
-                        else if (item.Approved == false)
-                        {
-                        <span class="badge bg-danger">Rejected</span>
-                        }
-                        else
-                        {
-                        <span class="badge bg-warning">Pending</span>
-                        }
+                    <span class="badge bg-secondary">Cancelled</span>
+                 }
+                 else if (item.Approved == true)
+                 {
+                    <span class="badge bg-success">Approved</span>
+                 }
+                 else if (item.Approved == false)
+                 {
+                    <span class="badge bg-danger">Rejected</span>
+                 }
+                 else
+                 {
+                    <span class="badge bg-warning">Pending</span>
+                 }
              </td>
 
              <td>
-                        @if (item.Cancelled == false)
-                        {
-                        <a asp-action="Details" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Review</a>
-                        }
+                 @if (item.Cancelled == false && item.Approved == null)
+                 {
+                    <a asp-action="Details" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Review</a>
+                 }
              </td>
 
         </tr>

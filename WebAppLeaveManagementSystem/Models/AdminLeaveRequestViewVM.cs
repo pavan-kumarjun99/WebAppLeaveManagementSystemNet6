@@ -4,7 +4,7 @@ namespace WebAppLeaveManagementSystem.Models
 {
     public class AdminLeaveRequestViewVM
     {
-        [Display(Name ="Total Number Of Requests")]
+        [Display(Name ="Total Requests")]
         public int TotalRequests { get; set; }
 
         [Display(Name = "Approved Requests")]
@@ -15,6 +15,9 @@ namespace WebAppLeaveManagementSystem.Models
 
         [Display(Name = "Rejected Requests")]
         public int RejectedRequests { get; set; }
+
+        [Display(Name = "Cancelled Requests")]
+        public int CancelledRequest { get; set; }
 
         public List<LeaveRequestVM> LeaveRequests { get; set; }
 
