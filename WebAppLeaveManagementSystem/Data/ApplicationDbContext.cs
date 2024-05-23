@@ -21,6 +21,8 @@ namespace WebAppLeaveManagementSystem.Data
         }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
+
         //public DbSet<WebAppLeaveManagementSystem.Models.LeaveAllocationEditVM>? LeaveAllocationEditVM { get; set; }
         //public DbSet<WebAppLeaveManagementSystem.Models.EmployeeAllocationVM>? EmployeeAllocationVM { get; set; }
         //public DbSet<WebAppLeaveManagementSystem.Models.EmployeeListVM>? EmployeeListVM { get; set; }

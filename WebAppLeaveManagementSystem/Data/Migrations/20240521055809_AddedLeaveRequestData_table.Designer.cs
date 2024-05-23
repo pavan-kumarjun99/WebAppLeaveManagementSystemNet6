@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppLeaveManagementSystem.Data;
 
@@ -11,9 +12,10 @@ using WebAppLeaveManagementSystem.Data;
 namespace WebAppLeaveManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240521055809_AddedLeaveRequestData_table")]
+    partial class AddedLeaveRequestData_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                         new
                         {
                             Id = "97f18b92-877e-534b-9635-9ded7ce73db1",
-                            ConcurrencyStamp = "36ee3cf9-c20b-41d1-b7f1-07924ce71e50",
+                            ConcurrencyStamp = "3bd30d55-8c14-4448-a1cf-db4ee302bb15",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "65f17b92-811e-484b-9560-9ded9be37db2",
-                            ConcurrencyStamp = "0ae14f41-68f7-4f35-a297-30544bcc83fe",
+                            ConcurrencyStamp = "43941b49-a79a-4c0a-a0c1-f6449c4dff9d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -266,7 +268,7 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                         {
                             Id = "65f17b92-811e-484b-9560-9ded9be37db0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a69e1725-8019-4d94-b83b-7de8cc6c37cd",
+                            ConcurrencyStamp = "e76585d4-0d9d-43e2-b0d1-a949f65241da",
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfJoining = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "test1@gmail.com",
@@ -276,9 +278,9 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST1@GMAIL.COM",
                             NormalizedUserName = "TEST1@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM6wUyslXpIP+tSo/BPwbzKNlVr/JbnsHvOlGsGKM8IkWiP+mlt58VYN8kN19ltrOw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFJgPATn1ncGmeyHZxPEb8eS9blT3zWP+jgb6HAurlCMmw2cBraMNqCGmwte7Wjurw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e92ecba2-9f91-4867-a82f-4f00bdd1d32c",
+                            SecurityStamp = "314b4e45-d248-489b-9796-d3f79cf70e5f",
                             TwoFactorEnabled = false,
                             UserName = "test1@gmail.com"
                         });
@@ -348,6 +350,7 @@ namespace WebAppLeaveManagementSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RequestComments")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestingEmployeeId")
